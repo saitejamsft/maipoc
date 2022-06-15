@@ -2,7 +2,6 @@
 azure-common
 azure-functions
 azure-nspkg
-azure-storage
 azure-storage-blob
 azure-storage-common
 networkx
