@@ -1,0 +1,24 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=maipocaa;AccountKey=UsdU2LCRRKFOkTSL+IrsMqVkOrRqEQddevv495vXYwLy9scrf6GgxCj0Pot5ttAMHwR9iSJPeii5+AStkqueBA==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "TOOL_ENV": "DEV",
+    "accountname": "maipocaa",
+    "accountkey": "UsdU2LCRRKFOkTSL+IrsMqVkOrRqEQddevv495vXYwLy9scrf6GgxCj0Pot5ttAMHwR9iSJPeii5+AStkqueBA==",
+    "containername": "maipocaa",
+    "DataBase_Server": "",
+    "DataBase_UserName": "",
+    "DataBase_Password": "",
+    "BloBAccountName": "maipocaa",
+    "BloBAccountKey": "UsdU2LCRRKFOkTSL+IrsMqVkOrRqEQddevv495vXYwLy9scrf6GgxCj0Pot5ttAMHwR9iSJPeii5+AStkqueBA==",
+    "BloBContainerName": "maipocaa",
+    "BloBMainContainerName": "maipocaa",
+    "AzureWebJobs.rawdataInsert.disabled": true,
+    "AzureWebJobs.resultdatainsert.disabled": true
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "*"
+  }
+}
