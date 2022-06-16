@@ -90,7 +90,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 #             pass
                 #     others['drop_down'] = drop_down
 
-        else:
+        elif type == 'Risk Assessment':
             data = get_data('files/risk/Risk_Data_Modelling_CP.csv', 'csv')
             # data = download_file_from_directory(
             #     'RiskAssessment', 'Risk_Data_Modelling.csv')
@@ -118,6 +118,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                             logging.info(e)
                             pass
                     others['drop_down'] = drop_down
+        else:
+            return func.HttpResponse(
+                simplejson.dumps(
+                    {"error": 'Please pass a valid type in the query parameters'}),
+                status_code=400
+            )
+
 
         if page:
             opty_ids = opty_ids[int(page) * 50:int(page) * 50 + 50]
