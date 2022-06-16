@@ -34,7 +34,13 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
             )
 
         if req_body['type'] == 'NST':
-            if "NST Type" not in req_body and "NST Group" not in req_body:
+            if "data" not in req_body:
+                return func.HttpResponse(
+                    simplejson.dumps(
+                        {"error": 'Please pass data in the request body'}),
+                    status_code=400
+                )
+            if "NST Type" not in req_body['data'] and "NST Group" not in req_body['data']:
                 return func.HttpResponse(
                     simplejson.dumps(
                         {"error": 'Please pass both NST Type and NST Group in the request body'}),
