@@ -86,7 +86,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             data['Deal ID'] = data['DealId'].astype(str)
             opty_rows = data[(data['Deal ID'] ==
                               deal_id)]
-        else:
+        elif req_body['type'] == 'Risk Assessment':
             if "deal_id" not in req_body and "opty_id" not in req_body:
                 return func.HttpResponse(
                     simplejson.dumps(
@@ -103,6 +103,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         # opty_rows = opty_rows.round(decimals=3)
         # print(data)
+        
+        else:
+            return func.HttpResponse(
+                simplejson.dumps(
+                    {"error": 'Please pass a valid type in the body'}),
+                status_code=400
+            )
 
         if not opty_rows.empty:
             opty_rows['id'] = range(1, len(opty_rows) + 1)

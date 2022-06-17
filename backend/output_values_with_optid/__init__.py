@@ -200,7 +200,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
         #         "score_output": re_score_otput,
         #         "received": True
         #     }, indent=4, sort_keys=True, default=str, ignore_nan=True)
-        else:
+        elif req_body['type'] == 'Risk Assessment':
             if 'r' not in response['roles']:
                 return func.HttpResponse(json.dumps({"message": "You don't have permission to access this data"}), status_code=401)
             if "deal_id" not in req_body and "opty_id" not in req_body:
@@ -241,6 +241,12 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                 "received": True
             }, indent=4, sort_keys=True, default=str, ignore_nan=True)
 
+        else:
+            return func.HttpResponse(
+                simplejson.dumps(
+                    {"error": 'Please pass a valid type in the body'}),
+                status_code=400
+            )
         return func.HttpResponse(output,
                                  headers={
                                      "content-type": "application/json",
