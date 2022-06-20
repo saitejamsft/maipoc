@@ -1,6 +1,7 @@
 """
     get experiment by query
 """
+from datetime import datetime
 import logging
 import json
 import azure.functions as func
@@ -54,6 +55,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                     req_body['data'])
                 output = simplejson.dumps({
                     "score_output": re_score_otput,
+                    "timestamp": str(datetime.now()).split(".")[0],
                     "received": True
                 }, indent=4, sort_keys=True, default=str, ignore_nan=True)
             except Exception as error_e:
@@ -100,6 +102,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                 pass
             output = simplejson.dumps({
                 "score_output": re_score_otput,
+                "timestamp": str(datetime.now()).split(".")[0],
                 "received": True
             }, indent=4, sort_keys=True, default=str, ignore_nan=True)
 
@@ -164,6 +167,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                 pass
             output = simplejson.dumps({
                 "score_output": re_score_otput_trs,
+                "timestamp": str(datetime.now()).split(".")[0],
                 "received": True
             }, indent=4, sort_keys=True, default=str, ignore_nan=True)
 
@@ -220,8 +224,9 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                     status_code=400
                 )
             # simplejson.loads(re_score_otput)
-            re_score_otput = (
-                re_score_otput[['Score', 'Label']]).to_dict('records')
+            # re_score_otput = (
+            #     re_score_otput[['Score', 'Label']]).to_dict('records')
+            re_score_otput = re_score_otput.to_dict('records')
             re_score_otput = re_score_otput if re_score_otput else []
             try:
                 await write_to_local(simplejson.dumps({
@@ -238,6 +243,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                 pass
             output = simplejson.dumps({
                 "score_output": re_score_otput,
+                "timestamp": str(datetime.now()).split(".")[0],
                 "received": True
             }, indent=4, sort_keys=True, default=str, ignore_nan=True)
 
