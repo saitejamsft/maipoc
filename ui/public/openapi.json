@@ -49,7 +49,7 @@
             },
             "required": true,
             "in": "query",
-            "description": "Status values that need to be considered for filter"
+            "description": "Type of model"
           },
           {
             "required": false,
@@ -58,7 +58,8 @@
               "type": "string"
             },
             "name": "q",
-            "in": "query"
+            "in": "query",
+            "description": "Query to find opportunity or deal id"
           },
           {
             "required": false,
@@ -67,7 +68,8 @@
               "type": "integer"
             },
             "name": "p",
-            "in": "query"
+            "in": "query",
+            "description": "Provide Page number, if there are more than 50 records"
           }
         ],
         "responses": {
@@ -542,7 +544,7 @@
                 "opty": {
                   "summary": "Opportunity Propensity example",
                   "value": {
-                    "opty_id": "7-3224W6HMTM",
+                    "opty_id": "7-ZZRBHRCW5",
                     "type": "Opportunity Propensity",
                     "data": [
                       {
@@ -890,7 +892,7 @@
                             "Link a Success Engagement with the Opportunity in order to have the right Consumption plan available in presales"
                           ],
                           "Prop_Bucket": "High",
-                          "Won": 0.8033471807568457
+                          "OpportunityID": "7-ZZRBHRCW5"
                         }
                       ]
                     }

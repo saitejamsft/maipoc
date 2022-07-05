@@ -136,7 +136,7 @@ function MainPage({ }) {
 
   const reScore = () => {
     setEvaluateClicked(true)
-    methods.post('output_values_with_optid', { "id": localStorage.id, "opty_id": opsSelected, "type": modelSelected, ...evaluate }).then(res => {
+    methods.post('output_values_with_optid', { "id": localStorage.id, "opty_id": opsSelected, "source": "uitool", "type": modelSelected, ...evaluate }).then(res => {
       if (modelSelected === 'Opportunity Propensity') {
         setdefaultData({ opty_rows: res.data?.score_output });
       } else {

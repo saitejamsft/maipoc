@@ -20,11 +20,11 @@ pd.set_option('display.width', 100)
 # risk_df = pd.read_csv('abfss://maipocaa@maipocaa.dfs.core.windows.net/Risk Recommender/Signed_Completed_Deals_FY20FY21FY22_C1_YAT_risks.csv')
 
 Contracttable_df = get_data(
-    'files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
+    'tmp_files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
 df_signed = get_data(
-    'files/risk_recommender/Signed_Completed_Deals_FY20FY21FY22.csv', 'csv')
+    'tmp_files/risk_recommender/Signed_Completed_Deals_FY20FY21FY22.csv', 'csv')
 risk_df = get_data(
-    'files/risk_recommender/Signed_Completed_Deals_FY20FY21FY22_C1_YAT_risks.csv', 'csv')
+    'tmp_files/risk_recommender/Signed_Completed_Deals_FY20FY21FY22_C1_YAT_risks.csv', 'csv')
 
 
 def scoring(Contracttable_df, df_signed, risk_df, input_json):

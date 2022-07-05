@@ -39,12 +39,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                         {"error": 'Please pass opty_id in the request body'}),
                     status_code=400
                 )
-            data = get_data('files/opty/RiskReserveAddition.csv', 'csv')
+            data = get_data('tmp_files/opty/RiskReserveAddition.csv', 'csv')
             # data = download_file_from_directory('Ml_service', 'Finance_Final.csv')
             old_input = get_data(
-                'files/opty/Seller_Narrative_Output_File_Original.json', 'json')
+                'tmp_files/opty/Seller_Narrative_Output_File_Original.json', 'json')
             # pd.read_json(
-            #     'files/Seller_Narrative_Output_File_Original.json')
+            #     'tmp_files/Seller_Narrative_Output_File_Original.json')
             # download_file_from_directory(
             #     'Ml_service', 'Output_Final/Seller_Narrative_Output_File_ch.json', type_of='json')
             if (not old_input.empty) and ('Prop_Bucket' in old_input) and old_input['Prop_Bucket'].values.any():
@@ -82,7 +82,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 )
             deal_id = req_body['deal_id'] if "deal_id" in req_body else req_body['opty_id']
             data = get_data(
-                'files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
+                'tmp_files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
             data['Deal ID'] = data['DealId'].astype(str)
             opty_rows = data[(data['Deal ID'] ==
                               deal_id)]
@@ -94,7 +94,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     status_code=400
                 )
             deal_id = req_body['deal_id'] if "deal_id" in req_body else req_body['opty_id']
-            data = get_data('files/risk/Risk_Data_Modelling_CP.csv', 'csv')
+            data = get_data('tmp_files/risk/Risk_Data_Modelling_CP.csv', 'csv')
             data['Deal ID'] = data['Deal ID'].astype(str)
             # data = download_file_from_directory(
             #     'RiskAssessment', 'Risk_Data_Modelling.csv')

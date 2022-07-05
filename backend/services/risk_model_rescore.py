@@ -9,21 +9,21 @@ from services.filereaders import get_data
 
 
 # Reading Static Files
-CSAT = None  # pd.read_csv('files/risk/CSAT.csv')
-rest = None  # pd.read_csv('files/risk/Other_features.csv')
-red = None  # pd.read_csv('files/risk/TPID_CP.csv')
-region = None  # pd.read_csv('files/risk/SubRegion_CP.csv')
-ppg = None  # pd.read_csv('files/risk/PPG_CP.csv')
-seller = None  # pd.read_csv('files/risk/Seller_CP.csv')
+CSAT = None  # pd.read_csv('tmp_files/risk/CSAT.csv')
+rest = None  # pd.read_csv('tmp_files/risk/Other_features.csv')
+red = None  # pd.read_csv('tmp_files/risk/TPID_CP.csv')
+region = None  # pd.read_csv('tmp_files/risk/SubRegion_CP.csv')
+ppg = None  # pd.read_csv('tmp_files/risk/PPG_CP.csv')
+seller = None  # pd.read_csv('tmp_files/risk/Seller_CP.csv')
 
 # List of objects paths to transform X
 class_objects = ['Output_1+obj1.pkl', 'Output_2+obj1.pkl',
                  'Output_3+obj1.pkl', 'Output_4+obj1.pkl']
 # Load Model in Variable
-model = load_model(f"files/risk/Risk_RF_Final_29Apr_Final")
+model = load_model(f"tmp_files/risk/Risk_RF_Final_29Apr_Final")
 
 # Imputing missing values
-df_num_imp = pd.read_csv('files/risk/df_num_imp.csv')
+df_num_imp = get_data('tmp_files/risk/df_num_imp.csv', 'csv')
 
 
 selected_features = ['Deal ID', 'Fee Arrangement',	'Is Public Sector',	'NST Category',	'Total Resource Hours',
@@ -57,7 +57,7 @@ dummy_vars = ['Fee Arrangement', 'NST Category', 'Standard Offering Type', 'OSED
               'PL Requested Type', 'ORBApproved', 'IndustrySector', 'IsGlobal', 'Is Misstated',  'Is Subcon Identified', 'Is Public Sector', 'Is ECIF', 'HAS SOW',
               'Is Amendment', 'Is Vaguely Described', 'Delivery Type']
 
-features = pd.read_csv('files/risk/Features.csv')
+features = pd.read_csv('tmp_files/risk/Features.csv')
 features = features['Columns'].tolist()
 
 
@@ -69,7 +69,7 @@ def Target_Encode_Multiclass(X, class_objects):
 
         class_ = class_obj.split('+')[0]
         # class_ = class_obj.name.split('+')[0]
-        infile = open(f"files/risk/{class_obj}", 'rb')
+        infile = open(f"tmp_files/risk/{class_obj}", 'rb')
         enc = pickle.load(infile)
         temp = enc.transform(X_obj)  # columns for class_
         temp.columns = [str(x)+'_'+str(class_) for x in temp.columns]
@@ -79,7 +79,7 @@ def Target_Encode_Multiclass(X, class_objects):
 
 
 risk_data = get_data(
-    'files/risk/Risk_Data_Modelling_CP.csv', 'csv')
+    'tmp_files/risk/Risk_Data_Modelling_CP.csv', 'csv')
 risk_data = risk_data[risk_data['Agreement Setup Completed Date'] > '2018-07-01']
 risk_data = risk_data[~risk_data['Output'].isna()]
 inp = risk_data.to_json()

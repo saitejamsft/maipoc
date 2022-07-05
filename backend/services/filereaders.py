@@ -18,5 +18,11 @@ def get_data(file_name, file_type, file_encoding=None):
                 data = pd.read_csv(file_path)
         elif file_type == 'json':
             data = pd.read_json(file_path)
+        elif file_type == 'pkl':
+            return file_path
         cache_files[file_name] = data
         return data
+
+
+def update_data(key, value):
+    cache_files[key] = value

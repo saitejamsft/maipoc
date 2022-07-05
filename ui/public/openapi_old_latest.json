@@ -10,17 +10,6 @@
         "summary": "Get Role Access",
         "description": "Request a picture path for a given starting image.\nThis url isn't visited directly, but called from a Javascript Ajax call.",
         "operationId": "get_role_access_get_role_access_get",
-        "parameters": [
-          {
-            "required": false,
-            "schema": {
-              "title": "Authorization",
-              "type": "string"
-            },
-            "name": "Authorization",
-            "in": "header"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -60,7 +49,7 @@
             },
             "required": true,
             "in": "query",
-            "description": "Status values that need to be considered for filter"
+            "description": "Type of model"
           },
           {
             "required": false,
@@ -69,7 +58,8 @@
               "type": "string"
             },
             "name": "q",
-            "in": "query"
+            "in": "query",
+            "description": "Query to find opportunity or deal id"
           },
           {
             "required": false,
@@ -77,17 +67,9 @@
               "title": "Page",
               "type": "integer"
             },
-            "name": "page",
-            "in": "query"
-          },
-          {
-            "required": false,
-            "schema": {
-              "title": "Authorization",
-              "type": "string"
-            },
-            "name": "Authorization",
-            "in": "header"
+            "name": "p",
+            "in": "query",
+            "description": "Provide Page number, if there are more than 50 records"
           }
         ],
         "responses": {
@@ -161,16 +143,6 @@
         "summary": "Default Values With Optid",
         "description": "Request a picture path for a given starting image.\nThis url isn't visited directly, but called from a Javascript Ajax call.",
         "operationId": "default_values_with_optid_default_values_with_optid_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "title": "Authorization",
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -562,16 +534,6 @@
         "summary": "Output Values With Optid",
         "description": "Request a picture path for a given starting image.\nThis url isn't visited directly, but called from a Javascript Ajax call.",
         "operationId": "output_values_with_optid_output_values_with_optid_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "schema": {
-              "title": "Authorization",
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -995,6 +957,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "Types": {
         "description": "Type of the model",
@@ -1049,6 +1018,11 @@
     {
       "url": "https://maipocaa.azurewebsites.net/api",
       "variables": {}
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
     }
   ]
 }

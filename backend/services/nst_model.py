@@ -17,18 +17,19 @@ from services.datalake_connection import download_file_from_directory
 def main_fun(name, inp1=None, inp2=None, inp3=None, inp4=None):
     try:
         df_recommended1 = pd.read_csv(
-            'files/nst/temp_NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
+            'tmp_files/nst/NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
     except:
-        return "error"
-        # df_recommended1 = download_file_from_directory('NST', 'NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
+        # return "error"
+        df_recommended1 = download_file_from_directory(
+            'NST', 'NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
 
     df_recommend_approval = df_recommended1['NST Translater'].value_counts(
     ).rename_axis('Approval NST Comments').to_frame('Users Used')
 
     xgb_model = pickle.load(open(
-        "files/nst/xgb_model.pkl", "rb"))
+        "tmp_files/nst/xgb_model.pkl", "rb"))
     vectorizer = pickle.load(open(
-        "files/nst/Xvec.pkl", "rb"))
+        "tmp_files/nst/Xvec.pkl", "rb"))
 
     NST_types = list(df_recommended1['NST Type'].value_counts().keys())
     # NST_types.append(None)

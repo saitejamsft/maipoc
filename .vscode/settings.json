@@ -10,5 +10,6 @@
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
     "appService.defaultWebAppToDeploy": "",
-    "appService.deploySubpath": "ui\\build"
+    "appService.deploySubpath": "ui\\build",
+    "azureFunctions.projectSubpath": "backend"
 }

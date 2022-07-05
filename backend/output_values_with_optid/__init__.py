@@ -14,7 +14,7 @@ from services.risk_model_rescore import re_score
 from services.opt_model_rescore import opt_re_score
 from services.nst_model import nst_re_score
 from services.risk_recommender_rescore import re_score_recommender
-from services.info_logger import write_to_local
+from services.info_logger import write_to_local, save_to_datalake
 import time
 
 
@@ -121,7 +121,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                         {"error": 'Please pass opty_id in the request body'}),
                     status_code=400
                 )
-            # data = pd.read_json('files/Seller_Narrative_Output_File_ch.json')
+            # data = pd.read_json('tmp_files/Seller_Narrative_Output_File_ch.json')
             # data = download_file_from_directory(
             #     'Ml_service', 'Output_Final/Output_Final/Seller_Narrative_Output_File.csv', type_of='json')
 
@@ -132,7 +132,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
 
             try:
                 re_score_otput = opt_re_score(
-                    req_body['data'], req_body['opty_id'])
+                    req_body['data'], req_body['opty_id'], req_body["source"] if "source" in req_body else None)
             except Exception as error_e:
                 return func.HttpResponse(
                     json.dumps({"error": str(error_e)}),
@@ -148,11 +148,18 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
             trs_score = re_score_otput['Won'].values[0]
             trs_label = re_score_otput['Prop_Bucket'].values[0]
             re_score_otput_trs = [{
-                "Won": trs_score,
+                # "Won": trs_score,
+                "OpportunityID": req_body['opty_id'],
                 "Prop_Bucket": trs_label,
                 "Action": list(re_score_otput['Action'])
             }]
+            output = simplejson.dumps({
+                "score_output": re_score_otput_trs,
+                "timestamp": str(datetime.now()).split(".")[0],
+                "received": True
+            }, indent=4, sort_keys=True, default=str, ignore_nan=True)
             try:
+                await save_to_datalake('Ml_service', output, req_body['opty_id'])
                 await write_to_local(simplejson.dumps({
                     "type": "Opportunity Propensity",
                     "id": req_body['opty_id'],
@@ -165,11 +172,6 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
             except Exception as e:
                 logging.info(e)
                 pass
-            output = simplejson.dumps({
-                "score_output": re_score_otput_trs,
-                "timestamp": str(datetime.now()).split(".")[0],
-                "received": True
-            }, indent=4, sort_keys=True, default=str, ignore_nan=True)
 
             # opty_rows = data[data['Opportunity ID'] == req_body['opty_id']]
             # opty_rows = data[data['Action'] != "No Action"]

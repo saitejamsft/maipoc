@@ -6,6 +6,7 @@ import logging
 from services.datalake_connection import download_file_from_directory, write_data_to_datalake
 import numpy as np
 import pandas as pd
+from pandas.io.json import json_normalize
 import json
 from decimal import *
 import numexpr as ne
@@ -39,8 +40,12 @@ setcontext(ExtendedContext)
 # #feature Contribution
 # Feature_Contribution = pd.read_csv('abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Feature_Contribution.csv')
 
+# Inport Resource tier mapping file
+# mapping = pd.read_csv(
+#     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Resource_Resource_Tier_Mapping.csv")
+mapping = get_data('tmp_files/opty/Resource_Resource_Tier_Mapping.csv', 'csv')
 
-finance_final = get_data('files/opty/Finance_Final.csv', 'csv')
+finance_final = get_data('tmp_files/opty/Finance_Final.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Finance_Final.csv')
 # pd.read_csv(
@@ -48,35 +53,35 @@ finance_final = get_data('files/opty/Finance_Final.csv', 'csv')
 
 # importing data_advanalyticslivedata_final
 data_advanalyticslivedata_final = get_data(
-    'files/opty/data_advanalyticslivedata_final.csv', 'csv')
+    'tmp_files/opty/data_advanalyticslivedata_final.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'data_advanalyticslivedata_final.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/data_advanalyticslivedata_final.csv")
 
 # Importing Pre-processed df
-dataframe1_new = get_data('files/opty/df1.csv', 'csv')
+dataframe1_new = get_data('tmp_files/opty/df1.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'df1.csv')
 # pd.read_csv(
 #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/df1.csv")
 
 # importing Oppty amendment
-Oppty_Amendment = get_data('files/opty/Oppty_Amendment.csv', 'csv')
+Oppty_Amendment = get_data('tmp_files/opty/Oppty_Amendment.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Oppty_Amendment.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Oppty_Amendment.csv")
 
 # importing soft_exception
-soft_exception = get_data('files/opty/soft_exception.csv', 'csv')
+soft_exception = get_data('tmp_files/opty/soft_exception.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'soft_exception.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/soft_exception.csv")
 
 # importing model features
-col_model_new = get_data('files/opty/model_features.csv', 'csv')
+col_model_new = get_data('tmp_files/opty/model_features.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'model_features.csv')
 #             pd.read_csv(
@@ -84,7 +89,7 @@ col_model_new = get_data('files/opty/model_features.csv', 'csv')
 
 # Importing co-eff file
 coeff = get_data(
-    'files/opty/OpportunityPropensityFeatureCoefficients_v5.csv', 'csv')
+    'tmp_files/opty/OpportunityPropensityFeatureCoefficients.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'OpportunityPropensityFeatureCoefficients_v5.csv')
 #             pd.read_csv(
@@ -92,13 +97,13 @@ coeff = get_data(
 
 
 Seller_Narratives_new = get_data(
-    'files/opty/seller_narratives_v1.4.csv', 'csv')
+    'tmp_files/opty/seller_narratives.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Seller_Narratives.csv')
 # pd.read_csv(
 #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Seller_Narratives.csv")
 
-Feature_Contribution = get_data('files/opty/Feature_Contribution.csv', 'csv')
+Feature_Contribution = get_data('tmp_files/opty/Feature_Contribution.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Feature_Contribution.csv')
 # pd.read_csv(
@@ -116,7 +121,7 @@ Feature_Contribution_small = Feature_Contribution[["feature", "max"]]
 Feature_Contribution_star = Feature_Contribution[["feature", "Feature_Star"]]
 
 
-def opt_re_score(inp, opt_id):
+def opt_re_score(inp, opt_id, source=None):
 
     # #Step - 1
     global finance_final
@@ -131,7 +136,7 @@ def opt_re_score(inp, opt_id):
 
     logging.info(datetime.now())
 
-    # finance_final = pd.read_csv('files/Finance_Final.csv')
+    # finance_final = pd.read_csv('tmp_files/Finance_Final.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Finance_Final.csv')
     # # pd.read_csv(
@@ -139,35 +144,35 @@ def opt_re_score(inp, opt_id):
 
     # # importing data_advanalyticslivedata_final
     # data_advanalyticslivedata_final = pd.read_csv(
-    #     'files/data_advanalyticslivedata_final.csv')
+    #     'tmp_files/data_advanalyticslivedata_final.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'data_advanalyticslivedata_final.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/data_advanalyticslivedata_final.csv")
 
     # # Importing Pre-processed df
-    # dataframe1_new = pd.read_csv('files/df1.csv')
+    # dataframe1_new = pd.read_csv('tmp_files/df1.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'df1.csv')
     # # pd.read_csv(
     # #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/df1.csv")
 
     # # importing Oppty amendment
-    # Oppty_Amendment = pd.read_csv('files/Oppty_Amendment.csv')
+    # Oppty_Amendment = pd.read_csv('tmp_files/Oppty_Amendment.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Oppty_Amendment.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Oppty_Amendment.csv")
 
     # # importing soft_exception
-    # soft_exception = pd.read_csv('files/soft_exception.csv')
+    # soft_exception = pd.read_csv('tmp_files/soft_exception.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'soft_exception.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/soft_exception.csv")
 
     # # importing model features
-    # col_model_new = pd.read_csv('files/model_features.csv')
+    # col_model_new = pd.read_csv('tmp_files/model_features.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'model_features.csv')
     # #             pd.read_csv(
@@ -175,19 +180,19 @@ def opt_re_score(inp, opt_id):
 
     # # Importing co-eff file
     # coeff = pd.read_csv(
-    #     'files/OpportunityPropensityFeatureCoefficients_v5.csv')
+    #     'tmp_files/OpportunityPropensityFeatureCoefficients_v5.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'OpportunityPropensityFeatureCoefficients_v5.csv')
     # #             pd.read_csv(
     # # 'abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/OpportunityPropensityFeatureCoefficients_v5.csv')
 
-    # Seller_Narratives_new = pd.read_csv('files/Seller_Narratives.csv')
+    # Seller_Narratives_new = pd.read_csv('tmp_files/Seller_Narratives.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Seller_Narratives.csv')
     # # pd.read_csv(
     # #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Seller_Narratives.csv")
 
-    # Feature_Contribution = pd.read_csv('files/Feature_Contribution.csv')
+    # Feature_Contribution = pd.read_csv('tmp_files/Feature_Contribution.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Feature_Contribution.csv')
     # # pd.read_csv(
@@ -195,17 +200,152 @@ def opt_re_score(inp, opt_id):
 
     # Assigning input to the dataframe
     # Assigning input to the dataframe
-    #Step - 1
-    finance_final_input = pd.DataFrame(inp)
-    finance_final_input.drop(columns=['id'], inplace=True)
-    finance_final_package = finance_final_input.groupby(by=['opty_id', 'pkg_id', 'ItemLevel']).agg({'Discount CCUS': 'sum', 'Revenue CCUS': 'sum', 'ECIFCommitted': 'max', 'Risk Reserve CCUS': 'max', 'Total Resource Hours': 'sum',
-                                                                                                    'ACRPotentialRevenue': 'min', 'BIF Amount CCUS': 'max', 'opportunitycreateddatefiscalyear': 'min', 'ResourceTier': 'min', 'opportunitystatus': 'min', 'contract id': 'min', 'FeeType': 'min', 'is S500 Flag': 'min'}).reset_index()
-    finance_final_package['ItemLevel'] = 'Package'
-    finance_final_package['Revenue CCUS'] = finance_final_package['Revenue CCUS'] + \
-        finance_final_package['Risk Reserve CCUS']
-    finance_final_temp = finance_final_input.append(
-        finance_final_package, ignore_index=True)
-    finance_final_1 = finance_final_temp.copy()
+    if source and source == 'uitool':
+        #Step - 1
+        finance_final_input = pd.DataFrame(inp)
+        finance_final_input.drop(columns=['id'], inplace=True)
+        finance_final_package = finance_final_input.groupby(by=['opty_id', 'pkg_id', 'ItemLevel']).agg({'Discount CCUS': 'sum', 'Revenue CCUS': 'sum', 'ECIFCommitted': 'max', 'Risk Reserve CCUS': 'max', 'Total Resource Hours': 'sum',
+                                                                                                        'ACRPotentialRevenue': 'min', 'BIF Amount CCUS': 'max', 'opportunitycreateddatefiscalyear': 'min', 'ResourceTier': 'min', 'opportunitystatus': 'min', 'contract id': 'min', 'FeeType': 'min', 'is S500 Flag': 'min'}).reset_index()
+        finance_final_package['ItemLevel'] = 'Package'
+        finance_final_package['Revenue CCUS'] = finance_final_package['Revenue CCUS'] + \
+            finance_final_package['Risk Reserve CCUS']
+        finance_final_temp = finance_final_input.append(
+            finance_final_package, ignore_index=True)
+        finance_final_1 = finance_final_temp.copy()
+    else:
+        # Convert
+        #import input
+        # df1 = pd.read_json('abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Sample_Quote_check.json')
+        try:
+            df1 = pd.DataFrame(inp)
+            a = df1.to_json()
+            df = json.loads(a)
+            oppty_id = df['CpqHeaderInfo']['CRMOpportunityId']
+        except:
+            df1 = download_file_from_directory(
+                'Ml_service', 'Sample_Quote_check.json', 'json')
+            a = df1.to_json()
+            df = json.loads(a)
+            oppty_id = df['CpqHeaderInfo']['CRMOpportunityId']
+
+        # Extracting Oppty_id & Contract id
+        # oppty_id = df['CpqHeaderInfo']['CRMOpportunityId']
+        contract_id = df['CpqHeaderInfo']['ContractId']
+
+        # Fetching revenue and discount
+        d1 = pd.DataFrame(columns=['oppty_id', 'contract_id', 'package_id', 'revenue', 'discount',
+                          'FeeArrangementType', 'PrimaryProductName', 'BusinessScenarioName', 'CatalogName'])
+        temp = pd.DataFrame.from_records(df['CpqQuoteDetails']['CpqPackages'])
+        for i in range(len(df['CpqQuoteDetails']['CpqPackages'])):
+            id = temp['Id'][i]
+            revenue = temp['Revenue'][i]
+            discount = temp['Discount'][i]
+            FeeArrangementType = temp['FeeArrangementType'][i]
+            PrimaryProductName = temp['PrimaryProductName'][i]
+            BusinessScenarioName = temp['BusinessScenarioName'][i]
+            CatalogName = temp['CatalogName'][i]
+            d1 = d1.append({'oppty_id': oppty_id, 'contract_id': contract_id, 'package_id': id, 'revenue': revenue, 'discount': discount, 'FeeArrangementType': FeeArrangementType,
+                           'PrimaryProductName': PrimaryProductName, 'BusinessScenarioName': BusinessScenarioName, 'CatalogName': CatalogName}, ignore_index=True)
+
+        # Fetching Risk reserve
+        d2 = pd.DataFrame()
+        for i in range(len(temp['Adjustments'])):
+            k = pd.DataFrame(json_normalize(temp["Adjustments"][i]))
+            if k.empty == True:
+                pass
+            else:
+                k = k[['PackageId', 'Revenue', 'Type']]
+                d2 = pd.concat([d2, k])
+        d2['oppty_id'] = oppty_id
+        # Filtering only for Risk Reserve
+        d2 = d2[d2['Type'] == 'Risk Reserve']
+        d2.rename(columns={'Revenue': 'Risk_Reserve'}, inplace=True)
+
+        # Fetching ECIF
+        d3 = pd.DataFrame()
+        for i in range(len(temp['Fundings'])):
+            p = pd.DataFrame(json_normalize(temp['Fundings'][i]))
+            if p.empty == True:
+                pass
+            else:
+                p = p[['PackageId', 'Revenue', 'Type']]
+                d3 = pd.concat([d3, p])
+        d3['oppty_id'] = oppty_id
+        # Filtering only for ECIF
+        d3 = d3[d3['Type'] == 'End-Customer Investment Funds (ECIF)']
+        #d3['BIF Amount CCUS'] = d3['Revenue']
+        d3.rename(columns={'Revenue': 'ECIF_Revenue'}, inplace=True)
+
+        # Fetching Resource Name and hours
+        d4 = pd.DataFrame(columns=[
+                          'oppty_id', 'package_id', 'ParentItemId', 'Resource_Name', 'Resource_Hours'])
+        for i in range(len(temp['Services'])):
+            temp1 = pd.DataFrame(json_normalize(temp['Services'][i]))
+            package_id = temp1['ParentItemId'][0]
+            for i in range(len(temp1)):
+                temp2 = pd.DataFrame(json_normalize(temp1['Resources'][i]))
+                ParentItemId = temp2['ParentItemId'][0]
+                CatalogItemName = temp2['CatalogItemName'][0]
+                Quantity = temp2['Quantity'][0]
+                d4 = d4.append({'oppty_id': oppty_id, 'package_id': package_id, 'ParentItemId': ParentItemId,
+                               'Resource_Name': CatalogItemName, 'Resource_Hours': Quantity}, ignore_index=True)
+
+        # Fetching Tags
+        d5 = pd.DataFrame(columns=['oppty_id', 'package_id', 'Tags'])
+        for i in range(len(temp['AdditionalAttributes'])):
+            package_id = temp['Id'][i]
+            temp2 = pd.DataFrame(json_normalize(
+                temp['AdditionalAttributes'][i]))
+            Tags = temp2['Tags'][0][0]
+            d5 = d5.append(
+                {'oppty_id': oppty_id, 'package_id': package_id, 'Tags': Tags}, ignore_index=True)
+
+        # joining the extracted dataframes
+        f1 = d1.merge(d2[['PackageId', 'Risk_Reserve']], left_on=['package_id'], right_on=[
+                      'PackageId'], how='left').drop(columns=['PackageId'])
+        f2 = f1.merge(d3[['PackageId', 'ECIF_Revenue']], left_on=['package_id'], right_on=[
+                      'PackageId'], how='left').drop(columns=['PackageId'])
+        f3 = f2.merge(d4[['package_id', 'Resource_Name', 'Resource_Hours']], left_on=[
+                      'package_id'], right_on=['package_id'], how='left')
+        f4 = f3.merge(d5[['package_id', 'Tags']], left_on=[
+                      'package_id'], right_on=['package_id'], how='left')
+
+        # Assiging BIF & Item Level
+        f4['BIF Amount CCUS'] = f4['ECIF_Revenue']
+        f4['Item Level'] = 'Resource'
+
+        # creating package level data
+        f4_pkge = f4.groupby(by=['oppty_id', 'package_id']).agg({'contract_id': 'min', 'revenue': 'max', 'discount': 'max', 'FeeArrangementType': 'min', 'PrimaryProductName': 'min',
+                                                                'BusinessScenarioName': 'min', 'CatalogName': 'min', 'Risk_Reserve': 'min', 'ECIF_Revenue': 'min', 'Resource_Name': 'min',
+                                                                 'Resource_Name': 'min', 'Resource_Hours': 'sum', 'Tags': 'min', 'BIF Amount CCUS': 'max'}).reset_index()
+        f4_pkge['Item Level'] = 'Package'
+        final_f4 = pd.concat((f4, f4_pkge), axis=0, ignore_index=True)
+        final_f4 = final_f4.merge(
+            mapping, left_on='Resource_Name', right_on='Resource').drop(columns=['Resource'])
+
+        finance_final = finance_final[finance_final['ItemLevel'] == 'Package']
+        # Extracting few features
+        final = final_f4.merge(finance_final[['opty_id', 'pkg_id', 'opportunitycreateddatefiscalyear', 'opportunitystatus',
+                               'ACRPotentialRevenue', 'is S500 Flag']], left_on=['oppty_id', 'package_id'], right_on=['opty_id', 'pkg_id'], how='inner')
+        final.drop(columns=['opty_id', 'pkg_id'], inplace=True)
+
+        # Renaming
+        final.columns = ['opty_id', 'contract id', 'pkg_id', 'Revenue CCUS', 'Discount CCUS', 'FeeType', 'PrimaryProductName', 'BusinessScenarioName', 'CatalogName',
+                         'Risk Reserve CCUS', 'ECIFCommitted', 'Resource_Name', 'Total Resource Hours', 'Tags', 'BIF Amount CCUS', 'ItemLevel', 'ResourceTier',
+                         'opportunitycreateddatefiscalyear', 'opportunitystatus', 'ACRPotentialRevenue', 'is S500 Flag']
+
+        # Name Correction
+        final['FeeType'] = final['FeeType'].map(
+            {'FixedFee': 'Fixed Fee', 'Time&Materials': 'Time & Materials', 'T&MCap': 'T & M Cap'})
+
+        final = final[['opty_id', 'contract id', 'pkg_id', 'Revenue CCUS', 'Discount CCUS', 'FeeType',
+                       'Risk Reserve CCUS', 'ECIFCommitted', 'Total Resource Hours', 'BIF Amount CCUS', 'ItemLevel', 'ResourceTier',
+                       'opportunitycreateddatefiscalyear', 'opportunitystatus', 'ACRPotentialRevenue', 'is S500 Flag']]
+
+        # final['contract id'] = final['contract id'].astype(int)
+        # final['pkg_id'] = final['pkg_id'].astype(int)
+        finance_final_1 = final.copy()
+        finance_final_input = final
     #Step - 1
     # finance_final_temp = finance_final.copy()
 

@@ -52,7 +52,7 @@ def write_data_to_datalake(data, filesystem_name, dir_name, filename):
     return True
 
 
-def download_file_from_directory(dir_name, file_name, type_of='csv', encoding=None):
+def download_file_from_directory(dir_name, file_name, type_of='csv', encoding=None, download_path=None):
     try:
         file_system_client = service_client.get_file_system_client(
             file_system=containerName)
@@ -68,6 +68,12 @@ def download_file_from_directory(dir_name, file_name, type_of='csv', encoding=No
         download = file_client.download_file()
 
         downloaded_bytes = download.readall()
+
+        if download_path:
+            local_file = open(download_path, 'wb')
+            local_file.write(downloaded_bytes)
+            local_file.close()
+            return ""
 
         s = str(downloaded_bytes, 'utf-8')
 
