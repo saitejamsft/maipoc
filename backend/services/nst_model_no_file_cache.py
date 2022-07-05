@@ -15,14 +15,14 @@ import pickle
 
 def main_fun(name, inp1=None, inp2=None, inp3=None, inp4=None):
     df_recommended1 = pd.read_csv(
-        'tmp_files/nst/NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
+        'local_files/nst/NST_Recommendation_SubRegion_Translated_Text_corrected.csv', encoding='latin-1')
     df_recommend_approval = df_recommended1['NST Translater'].value_counts(
     ).rename_axis('Approval NST Comments').to_frame('Users Used')
 
     xgb_model = pickle.load(open(
-        "tmp_files/nst/xgb_model.pkl", "rb"))
+        "local_files/nst/xgb_model.pkl", "rb"))
     vectorizer = pickle.load(open(
-        "tmp_files/nst/Xvec.pkl", "rb"))
+        "local_files/nst/Xvec.pkl", "rb"))
 
     NST_types = list(df_recommended1['NST Type'].value_counts().keys())
     # NST_types.append(None)

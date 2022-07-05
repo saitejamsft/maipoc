@@ -39,16 +39,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if type == 'Opportunity Propensity':
             # data = download_file_from_directory(
             #     'Ml_service', 'Finance_Final.csv')
-            # data_1 = pd.read_csv('tmp_files/Finance_Final.csv')
+            # data_1 = pd.read_csv('local_files/Finance_Final.csv')
             # data_2 = pd.read_json(
-            #     'tmp_files/Seller_Narrative_Output_File_Original.json')
+            #     'local_files/Seller_Narrative_Output_File_Original.json')
             # # data = pd.merge(data_1, data_2, left_on='opty_id',
             # #                 right_on='Opportunity ID')
             # data = pd.DataFrame({"opty_id": np.intersect1d(
             #     data_1['opty_id'], data_2['Opportunity ID'])})
             # data['opty_id'] = data['opty_id'].astype(str)
             data = get_data(
-                'tmp_files/opty/Seller_Narrative_Output_File_Original.json', 'json')
+                'local_files/opty/Seller_Narrative_Output_File_Original.json', 'json')
             data['opty_id'] = data['Opportunity ID'].astype(str)
             if query_text:
                 # data['opty_id'] = data['Opportunity ID'].astype(str)
@@ -68,7 +68,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             })
         elif type == 'Risk Recommender':
             data = get_data(
-                'tmp_files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
+                'local_files/risk_recommender/Open_Deals_Resource_Grain_FY22.csv', 'csv')
             data['Deal ID'] = data['DealId']
             data = data[~data['Deal ID'].isna()]
             if query_text:
@@ -91,7 +91,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 #     others['drop_down'] = drop_down
 
         elif type == 'Risk Assessment':
-            data = get_data('tmp_files/risk/Risk_Data_Modelling_CP.csv', 'csv')
+            data = get_data('local_files/risk/Risk_Data_Modelling_CP.csv', 'csv')
             # data = download_file_from_directory(
             #     'RiskAssessment', 'Risk_Data_Modelling.csv')
             data = data[~data['Deal ID'].isna()]

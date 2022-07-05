@@ -121,7 +121,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
                         {"error": 'Please pass opty_id in the request body'}),
                     status_code=400
                 )
-            # data = pd.read_json('tmp_files/Seller_Narrative_Output_File_ch.json')
+            # data = pd.read_json('local_files/Seller_Narrative_Output_File_ch.json')
             # data = download_file_from_directory(
             #     'Ml_service', 'Output_Final/Output_Final/Seller_Narrative_Output_File.csv', type_of='json')
 
@@ -148,7 +148,7 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
             trs_score = re_score_otput['Won'].values[0]
             trs_label = re_score_otput['Prop_Bucket'].values[0]
             re_score_otput_trs = [{
-                # "Won": trs_score,
+                "Won": trs_score,
                 "OpportunityID": req_body['opty_id'],
                 "Prop_Bucket": trs_label,
                 "Action": list(re_score_otput['Action'])

@@ -40,7 +40,7 @@ setcontext(ExtendedContext)
 # Feature_Contribution = pd.read_csv('abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Feature_Contribution.csv')
 
 
-finance_final = get_data('tmp_files/opty/Finance_Final.csv', 'csv')
+finance_final = get_data('local_files/opty/Finance_Final.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Finance_Final.csv')
 # pd.read_csv(
@@ -48,35 +48,35 @@ finance_final = get_data('tmp_files/opty/Finance_Final.csv', 'csv')
 
 # importing data_advanalyticslivedata_final
 data_advanalyticslivedata_final = get_data(
-    'tmp_files/opty/data_advanalyticslivedata_final.csv', 'csv')
+    'local_files/opty/data_advanalyticslivedata_final.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'data_advanalyticslivedata_final.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/data_advanalyticslivedata_final.csv")
 
 # Importing Pre-processed df
-dataframe1_new = get_data('tmp_files/opty/df1.csv', 'csv')
+dataframe1_new = get_data('local_files/opty/df1.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'df1.csv')
 # pd.read_csv(
 #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/df1.csv")
 
 # importing Oppty amendment
-Oppty_Amendment = get_data('tmp_files/opty/Oppty_Amendment.csv', 'csv')
+Oppty_Amendment = get_data('local_files/opty/Oppty_Amendment.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Oppty_Amendment.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Oppty_Amendment.csv")
 
 # importing soft_exception
-soft_exception = get_data('tmp_files/opty/soft_exception.csv', 'csv')
+soft_exception = get_data('local_files/opty/soft_exception.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'soft_exception.csv')
 #             pd.read_csv(
 # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/soft_exception.csv")
 
 # importing model features
-col_model_new = get_data('tmp_files/opty/model_features.csv', 'csv')
+col_model_new = get_data('local_files/opty/model_features.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'model_features.csv')
 #             pd.read_csv(
@@ -84,7 +84,7 @@ col_model_new = get_data('tmp_files/opty/model_features.csv', 'csv')
 
 # Importing co-eff file
 coeff = get_data(
-    'tmp_files/opty/OpportunityPropensityFeatureCoefficients_v5.csv', 'csv')
+    'local_files/opty/OpportunityPropensityFeatureCoefficients_v5.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'OpportunityPropensityFeatureCoefficients_v5.csv')
 #             pd.read_csv(
@@ -92,13 +92,13 @@ coeff = get_data(
 
 
 Seller_Narratives_new = get_data(
-    'tmp_files/opty/seller_narratives_v1.4.csv', 'csv')
+    'local_files/opty/seller_narratives_v1.4.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Seller_Narratives.csv')
 # pd.read_csv(
 #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Seller_Narratives.csv")
 
-Feature_Contribution = get_data('tmp_files/opty/Feature_Contribution.csv', 'csv')
+Feature_Contribution = get_data('local_files/opty/Feature_Contribution.csv', 'csv')
 # download_file_from_directory(
 #     'Ml_service', 'Feature_Contribution.csv')
 # pd.read_csv(
@@ -131,7 +131,7 @@ def opt_re_score(inp, opt_id):
 
     logging.info(datetime.now())
 
-    # finance_final = pd.read_csv('tmp_files/Finance_Final.csv')
+    # finance_final = pd.read_csv('local_files/Finance_Final.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Finance_Final.csv')
     # # pd.read_csv(
@@ -139,35 +139,35 @@ def opt_re_score(inp, opt_id):
 
     # # importing data_advanalyticslivedata_final
     # data_advanalyticslivedata_final = pd.read_csv(
-    #     'tmp_files/data_advanalyticslivedata_final.csv')
+    #     'local_files/data_advanalyticslivedata_final.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'data_advanalyticslivedata_final.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/data_advanalyticslivedata_final.csv")
 
     # # Importing Pre-processed df
-    # dataframe1_new = pd.read_csv('tmp_files/df1.csv')
+    # dataframe1_new = pd.read_csv('local_files/df1.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'df1.csv')
     # # pd.read_csv(
     # #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/df1.csv")
 
     # # importing Oppty amendment
-    # Oppty_Amendment = pd.read_csv('tmp_files/Oppty_Amendment.csv')
+    # Oppty_Amendment = pd.read_csv('local_files/Oppty_Amendment.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Oppty_Amendment.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Oppty_Amendment.csv")
 
     # # importing soft_exception
-    # soft_exception = pd.read_csv('tmp_files/soft_exception.csv')
+    # soft_exception = pd.read_csv('local_files/soft_exception.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'soft_exception.csv')
     # #             pd.read_csv(
     # # "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/soft_exception.csv")
 
     # # importing model features
-    # col_model_new = pd.read_csv('tmp_files/model_features.csv')
+    # col_model_new = pd.read_csv('local_files/model_features.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'model_features.csv')
     # #             pd.read_csv(
@@ -175,19 +175,19 @@ def opt_re_score(inp, opt_id):
 
     # # Importing co-eff file
     # coeff = pd.read_csv(
-    #     'tmp_files/OpportunityPropensityFeatureCoefficients_v5.csv')
+    #     'local_files/OpportunityPropensityFeatureCoefficients_v5.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'OpportunityPropensityFeatureCoefficients_v5.csv')
     # #             pd.read_csv(
     # # 'abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/OpportunityPropensityFeatureCoefficients_v5.csv')
 
-    # Seller_Narratives_new = pd.read_csv('tmp_files/Seller_Narratives.csv')
+    # Seller_Narratives_new = pd.read_csv('local_files/Seller_Narratives.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Seller_Narratives.csv')
     # # pd.read_csv(
     # #     "abfss://maipocaa@maipocaa.dfs.core.windows.net/Ml_service/Seller_Narratives.csv")
 
-    # Feature_Contribution = pd.read_csv('tmp_files/Feature_Contribution.csv')
+    # Feature_Contribution = pd.read_csv('local_files/Feature_Contribution.csv')
     # # download_file_from_directory(
     # #     'Ml_service', 'Feature_Contribution.csv')
     # # pd.read_csv(

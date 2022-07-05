@@ -12,7 +12,7 @@ account_name = os.environ["accountname"]
 accountKey = os.environ["accountkey"]
 containerName = os.environ["containername"]
 account_url = f"https://{account_name}.dfs.core.windows.net"
-SOURCE_FILE = 'tmp_files/logs.txt'
+SOURCE_FILE = 'local_files/logs.txt'
 
 
 async def write_to_datalake():

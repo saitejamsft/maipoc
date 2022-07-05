@@ -16,7 +16,7 @@ class_objects = ['Output_1+obj.pkl', 'Output_2+obj.pkl',
 
 # Load Model in Variable
 
-model = load_model(f"tmp_files/Risk_RF_Final")
+model = load_model(f"local_files/Risk_RF_Final")
 
 
 # List of Selected Features
@@ -56,7 +56,7 @@ dummy_vars = ['Is Amendment', 'IsGlobal', 'Is Misstated', 'Is Vaguely Described'
               'ApprovalsExceedsTarget', 'Is Risk Overridden', 'CM Review', 'SBDInvolved', 'HAS SOW']
 
 
-features = pd.read_csv('tmp_files/Features.csv')
+features = pd.read_csv('local_files/Features.csv')
 features = features['Columns'].tolist()
 
 
@@ -67,7 +67,7 @@ def Target_Encode_Multiclass(X, class_objects):
     for class_obj in class_objects:
 
         class_ = class_obj.split('+')[0]
-        infile = open(f"tmp_files/pkl/{class_obj}", 'rb')
+        infile = open(f"local_files/pkl/{class_obj}", 'rb')
         enc = pickle.load(infile)
         temp = enc.transform(X_obj)  # columns for class_
         temp.columns = [str(x)+'_'+str(class_) for x in temp.columns]
@@ -138,7 +138,7 @@ def score(inp, class_objects, jobId, model, selected_features, nominal_vars, ord
     # Missing Value Imputation (Numerical variables with -ve values and blank)
 
     # Reading df that has values to be imputed
-    df_num_imp = pd.read_csv('tmp_files/df_num_imp.csv')
+    df_num_imp = pd.read_csv('local_files/df_num_imp.csv')
 
     # Unique CompassOneIndustryName
     IS = df_train['CompassOneIndustryName'].unique().tolist()

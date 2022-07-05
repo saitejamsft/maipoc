@@ -7,7 +7,7 @@ const availablePaths = {
 }
 
 export default {
-  apiUrl: pathU || availablePaths["dev"],
+  apiUrl: pathU || availablePaths["local"],
   // apiUrl: "http://localhost:8000/",
   // apiUrl: "https://maipoctest.azurewebsites.net/",
 };

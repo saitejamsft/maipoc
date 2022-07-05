@@ -14,14 +14,14 @@ from services.filereaders import get_data
 
 
 df_recommended1 = get_data(
-    'tmp_files/nst/NST_Recommendation_SubRegion_Translated_Text_corrected.csv', 'csv', 'latin-1')
+    'local_files/nst/NST_Recommendation_SubRegion_Translated_Text_corrected.csv', 'csv', 'latin-1')
 df_recommend_approval = df_recommended1['NST Translater'].value_counts(
 ).rename_axis('Approval NST Comments').to_frame('Users Used')
 
 xgb_model = pickle.load(open(
-    "tmp_files/nst/xgb_model.pkl", "rb"))
+    "local_files/nst/xgb_model.pkl", "rb"))
 vectorizer = pickle.load(open(
-    "tmp_files/nst/Xvec.pkl", "rb"))
+    "local_files/nst/Xvec.pkl", "rb"))
 
 NST_types = list(df_recommended1['NST Type'].value_counts().keys())
 # NST_types.append(None)
